@@ -43,11 +43,15 @@ impl IGridContainer for LucindaGrid {
 
             let args = [x.region.as_color().to_variant()];
 
-            y.call("set_color".into(), &args);
+            y.call("setColour".into(), &args);
 
             y
         }));
 
+        let instances_to_child = self.slot_instances.clone();
+        for child in instances_to_child {
+            self.base_mut().add_child(child);
+        }
     }
 }
 
