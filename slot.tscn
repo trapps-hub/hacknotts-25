@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b01guk2i4bb5m"]
+
+[ext_resource type="Theme" uid="uid://cetseojqf7ool" path="res://gametheme.tres" id="1_tot18"]
+[ext_resource type="Script" path="res://slot.gd" id="2_uej6r"]
+
+[node name="Slot" type="Panel"]
+custom_minimum_size = Vector2(78, 78)
+theme = ExtResource("1_tot18")
+script = ExtResource("2_uej6r")

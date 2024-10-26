@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://bu124chuymya7"]
+[gd_scene load_steps=2 format=3 uid="uid://bu124chuymya7"]
+
+[ext_resource type="PackedScene" uid="uid://b01guk2i4bb5m" path="res://slot.tscn" id="1_1m5gx"]
 
 [node name="GUI" type="Control"]
 layout_mode = 3
@@ -15,7 +17,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.905882, 0.862745, 0.882353, 1)
+color = Color(0.953771, 0.953771, 0.953771, 1)
 
 [node name="QueensBoard" type="ColorRect" parent="."]
 layout_mode = 1
@@ -24,12 +26,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -300.0
-offset_top = -300.0
-offset_right = 300.0
-offset_bottom = 300.0
+offset_left = -322.5
+offset_top = -322.5
+offset_right = 322.5
+offset_bottom = 322.5
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0.952941, 0.952941, 0.952941, 1)
 
 [node name="GridContainer" type="GridContainer" parent="QueensBoard"]
 layout_mode = 1
@@ -38,12 +41,268 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -280.0
-offset_top = -280.0
-offset_right = 280.0
-offset_bottom = 280.0
+offset_left = -320.0
+offset_top = -320.0
+offset_right = 320.0
+offset_bottom = 320.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 8
+
+[node name="Slot" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot2" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot3" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot4" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot5" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot6" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot7" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot8" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot9" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot10" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot11" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot12" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot13" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot14" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot15" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot16" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot17" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot18" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot19" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot20" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot21" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot22" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot23" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot24" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot25" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot26" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot27" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot28" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot29" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot30" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot31" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot32" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot33" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot34" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot35" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot36" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot37" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot38" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot39" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot40" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot41" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot42" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot43" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot44" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot45" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot46" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot47" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot48" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot49" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot50" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot51" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot52" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot53" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot54" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot55" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot56" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot57" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot58" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot59" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot60" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot61" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot62" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot63" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Slot64" parent="QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
