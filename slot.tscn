@@ -4,6 +4,6 @@
 [ext_resource type="Script" path="res://slot.gd" id="2_uej6r"]
 
 [node name="Slot" type="Panel"]
-custom_minimum_size = Vector2(78, 78)
+custom_minimum_size = Vector2(100, 100)
 theme = ExtResource("1_tot18")
 script = ExtResource("2_uej6r")

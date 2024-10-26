@@ -1,4 +1,26 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cetseojqf7ool"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://cetseojqf7ool"]
+
+[ext_resource type="FontFile" uid="uid://bipralhn8b47r" path="res://UncialAntiqua-Regular.ttf" id="1_rs8nd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vlvl"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.133333, 0.133333, 0.133333, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vwydf"]
+bg_color = Color(0.357191, 0.357191, 0.357191, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_isq14"]
+bg_color = Color(0.830335, 0.830335, 0.830335, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2ddif"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ibv1e"]
 bg_color = Color(0.856067, 0.856067, 0.856067, 1)
@@ -9,4 +31,25 @@ border_width_bottom = 1
 border_color = Color(0.687216, 0.687215, 0.687215, 1)
 
 [resource]
+Button/colors/font_color = Color(0.133333, 0.133333, 0.133333, 1)
+Button/colors/font_focus_color = Color(0.133333, 0.133333, 0.133333, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_pressed_color = Color(0.133333, 0.133333, 0.133333, 1)
+Button/colors/font_pressed_color = Color(0.133333, 0.133333, 0.133333, 1)
+Button/font_sizes/font_size = 42
+Button/fonts/font = ExtResource("1_rs8nd")
+Button/styles/focus = SubResource("StyleBoxFlat_8vlvl")
+Button/styles/hover = SubResource("StyleBoxFlat_vwydf")
+Button/styles/normal = SubResource("StyleBoxFlat_8vlvl")
+Button/styles/pressed = SubResource("StyleBoxFlat_isq14")
+Label/colors/font_color = Color(0.396889, 0.396889, 0.396889, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0)
+Label/constants/line_spacing = 3
+Label/constants/outline_size = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/constants/shadow_outline_size = 1
+Label/font_sizes/font_size = 36
+Label/fonts/font = ExtResource("1_rs8nd")
+Label/styles/normal = SubResource("StyleBoxEmpty_2ddif")
 Panel/styles/panel = SubResource("StyleBoxFlat_ibv1e")
