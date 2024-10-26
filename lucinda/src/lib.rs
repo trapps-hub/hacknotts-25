@@ -1,18 +1,12 @@
 mod board;
 
-use std::env::args;
 use godot::classes::{GridContainer, IGridContainer, Panel};
-use godot::classes::resource_loader::ExLoad;
 use godot::prelude::*;
-use godot::sys::InitLevel::Scene;
-use nalgebra::SMatrix;
 use crate::board::BoardBuilder;
 
-struct Lucinda;
 
 #[gdextension]
-unsafe impl ExtensionLibrary for Lucinda {
-}
+unsafe impl ExtensionLibrary for LucindaGrid {}
 
 #[derive(GodotClass)]
 #[class(base = GridContainer)]
@@ -42,7 +36,7 @@ impl IGridContainer for LucindaGrid {
     }
 
     fn ready(&mut self) {
-        let scene = load("res://slot.tscn");
+        let scene : Gd<PackedScene> = load("res://slot.tscn");
 
         self.slot_instances.extend(self.board.iter().map(|x| {
             let mut y = scene.instantiate_as::<Panel>();

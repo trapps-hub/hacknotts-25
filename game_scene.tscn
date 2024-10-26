@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bu124chuymya7"]
 
 [ext_resource type="Script" path="res://game_controller.gd" id="1_3sc06"]
-[ext_resource type="Theme" uid="uid://cetseojqf7ool" path="res://gametheme.tres" id="1_oea44"]
+[ext_resource type="Theme" uid="uid://drc7scsqevy8x" path="res://gametheme.tres" id="1_oea44"]
 
 [node name="GUI" type="Control"]
 layout_mode = 3
@@ -92,6 +92,11 @@ theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 8
 script = ExtResource("1_3sc06")
+
+[node name="LucindaGrid" type="LucindaGrid" parent="HBoxContainer/MidCol/Board/QueensBoard"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="Footer" type="Control" parent="HBoxContainer/MidCol"]
 layout_mode = 2

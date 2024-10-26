@@ -41,7 +41,7 @@ mod tests {
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
-enum Regions {
+pub enum Regions {
     Unclaimed,
     LAVA,
     Hinterlands,
@@ -70,7 +70,7 @@ impl Regions {
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
-struct Slot {
+pub struct Slot {
     pub has_queen: bool,
     pub region: Regions
 }
@@ -79,7 +79,6 @@ pub mod build_state {
     pub struct Empty();
     pub struct QueensPlaced();
     pub struct RegionsFilled();
-    pub struct Validated();
 }
 
 #[derive(Debug)]
