@@ -1,6 +1,5 @@
-[gd_scene load_steps=4 format=3 uid="uid://bu124chuymya7"]
+[gd_scene load_steps=3 format=3 uid="uid://bu124chuymya7"]
 
-[ext_resource type="PackedScene" uid="uid://b01guk2i4bb5m" path="res://slot.tscn" id="1_1m5gx"]
 [ext_resource type="Script" path="res://game_controller.gd" id="1_3sc06"]
 [ext_resource type="Theme" uid="uid://cetseojqf7ool" path="res://gametheme.tres" id="1_oea44"]
 
@@ -28,40 +27,55 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
 
-[node name="Control" type="Control" parent="HBoxContainer"]
+[node name="LeftCol" type="Control" parent="HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="genBoardButton" type="Button" parent="HBoxContainer/Control"]
+[node name="genBoardButton" type="Button" parent="HBoxContainer/LeftCol"]
 layout_mode = 1
-anchors_preset = 4
+anchors_preset = 8
+anchor_left = 0.5
 anchor_top = 0.5
+anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 119.0
-offset_top = -235.0
-offset_right = 442.0
-offset_bottom = -150.0
+offset_left = -161.5
+offset_top = -42.5
+offset_right = 161.5
+offset_bottom = 42.5
+grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_oea44")
 text = "new board"
 
-[node name="SeedLabel" type="Label" parent="HBoxContainer/Control"]
+[node name="SeedLabel" type="Label" parent="HBoxContainer/LeftCol"]
 layout_mode = 0
-offset_left = 13.0
-offset_top = -542.0
-offset_right = 231.0
-offset_bottom = -494.0
+offset_right = 218.0
+offset_bottom = 48.0
 theme = ExtResource("1_oea44")
 text = "game seed:"
 
-[node name="QueensBoard" type="ColorRect" parent="HBoxContainer"]
+[node name="MidCol" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-color = Color(0.818535, 0.996262, 0.975285, 1)
 
-[node name="GridContainer" type="GridContainer" parent="HBoxContainer/QueensBoard"]
+[node name="Header" type="Control" parent="HBoxContainer/MidCol"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Board" type="Control" parent="HBoxContainer/MidCol"]
+custom_minimum_size = Vector2(800, 800)
+layout_mode = 2
+
+[node name="QueensBoard" type="ColorRect" parent="HBoxContainer/MidCol/Board"]
+layout_mode = 2
+offset_right = 800.0
+offset_bottom = 800.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.847474, 0.847474, 0.847474, 1)
+
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer/MidCol/Board/QueensBoard"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -79,194 +93,10 @@ theme_override_constants/v_separation = 0
 columns = 8
 script = ExtResource("1_3sc06")
 
-[node name="Slot" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+[node name="Footer" type="Control" parent="HBoxContainer/MidCol"]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="Slot2" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
+[node name="RightCol" type="Control" parent="HBoxContainer"]
 layout_mode = 2
-
-[node name="Slot3" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot4" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot5" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot6" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot7" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot8" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot9" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot10" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot11" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot12" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot13" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot14" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot15" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot16" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot17" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot18" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot19" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot20" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot21" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot22" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot23" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot24" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot25" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot26" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot27" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot28" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot29" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot30" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot31" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot32" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot33" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot34" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot35" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot36" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot37" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot38" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot39" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot40" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot41" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot42" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot43" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot44" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot45" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot46" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot47" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot48" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot49" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot50" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot51" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot52" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot53" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot54" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot55" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot56" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot57" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot58" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot59" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot60" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot61" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot62" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot63" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
-
-[node name="Slot64" parent="HBoxContainer/QueensBoard/GridContainer" instance=ExtResource("1_1m5gx")]
-layout_mode = 2
+size_flags_horizontal = 3
