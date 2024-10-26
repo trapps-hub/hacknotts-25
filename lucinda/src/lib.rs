@@ -17,6 +17,26 @@ struct LucindaGrid {
 }
 
 #[godot_api]
+impl LucindaGrid {
+    #[func]
+    fn regenerate(&mut self) {
+        self.board = loop {
+            if let Some(board) = BoardBuilder::new()
+                .place_queens()
+                .flood_fill()
+                .validate_unique() {
+                break board;
+            }
+        };
+
+        for (child, slot) in self.slot_instances.iter_mut().zip(self.board.iter()) {
+            let args = [slot.region.as_color().to_variant()];
+            child.call("setColour".into(), &args);
+        }
+    }
+}
+
+#[godot_api]
 impl IGridContainer for LucindaGrid {
     fn init(base: Base<GridContainer>) -> Self {
         let board = loop {
