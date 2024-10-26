@@ -16,4 +16,4 @@ mono_crash.*.json
 
 # ignore rust things
 lucinda/.idea
-lucinde/target
+lucinda/target
