@@ -7,3 +7,6 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
+nalgebra = "0.33.1"
+godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }
+rand = "0.8.5"
