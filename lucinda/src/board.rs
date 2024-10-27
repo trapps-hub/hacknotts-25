@@ -6,6 +6,7 @@ use rand::prelude::*;
 #[cfg(test)]
 mod tests {
     use nalgebra::SMatrix;
+    use rand::{thread_rng, Rng};
     use crate::board::{validate_grid, BoardBuilder};
 
     #[test]
@@ -37,8 +38,8 @@ mod tests {
             .validate_unique().unwrap();
 
         let mut x = SMatrix::default();
-        x[(1,1)] = true;
-        x[(0,1)] = true;
+        x[(thread_rng().gen_range(0..8),thread_rng().gen_range(0..8))] = true;
+        x[(thread_rng().gen_range(0..8),thread_rng().gen_range(0..8))] = true;
 
         println!("{}", test_board.board.map(|x| x.region).map(|x| {
             x as u8
@@ -255,12 +256,12 @@ pub fn validate_grid<const N : usize>(board: SMatrix<Slot, N, N>, user: SMatrix<
                 i.saturating_sub(1),
                 j.saturating_sub(1)
             );
-            let locality_bottom = (
-                (i + 1) % N,
-                (j + 1) % N
+            let locality_size = (
+                if (i + 1) < N { 3 } else { 2 },
+                if (j + 1) < N { 3 } else { 2 }
             );
 
-            user.view(locality_top, locality_bottom).iter().cloned().map(usize::from).sum::<usize>() > 1
+            user.view(locality_top, locality_size).iter().cloned().map(usize::from).sum::<usize>() > 1
         } else {
             false
         }
