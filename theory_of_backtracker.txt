@@ -1,0 +1,15 @@
+ok so the *BACKTRACKER* - 
+
+I think the code that is outlined here could be converted into a more suitable language for our use -->
+https://medium.com/towards-data-engineering/solving-linkedins-queens-puzzle-with-code-6f1c3aa23a40
+
+It's very similar to what you've already been writing in Rust. The solver needs constraints, detailed by Boolean expressions, which the article details as well.
+
+In theory, Z3 can be accessed by Rust --> https://github.com/prove-rs/z3.rs
+… some tests that might help to find examples on how to use this --> https://github.com/prove-rs/z3.rs/tree/master/z3/tests
+
+Now the next question is can Z3 help you find multiple solutions? Once again, in theory, you should be able to turn the returned solution into a restraint and tell Z3 to look again --> https://stackoverflow.com/questions/11867611/z3py-checking-all-solutions-for-equation
+
+For our purposes this *should* work because we only need it to determine that there is exactly one solution to validate the board.
+
+IN THEORY.
