@@ -1,14 +1,13 @@
 use std::collections::{HashMap, HashSet};
 use std::marker::PhantomData;
 use std::ops::Deref;
-use nalgebra::{SMatrix, SVector};
+use nalgebra::SMatrix;
 use rand::prelude::*;
+use rayon::prelude::*;
 
 #[cfg(test)]
 mod tests {
-    use nalgebra::SMatrix;
-    use rand::{thread_rng, Rng};
-    use crate::board::{validate_grid, BoardBuilder};
+    use super::*;
 
     #[test]
     fn place_test() {
@@ -93,14 +92,16 @@ pub mod build_state {
 }
 
 #[derive(Debug)]
-pub struct BoardBuilder<BuildState> {
+pub struct BoardBuilder<BuildState, Rng = StdRng> {
     board: SMatrix<Slot, 8, 8>,
+    rng: Rng,
     phantom_data: PhantomData<BuildState>
 }
 
 fn queen_place_helper<const N : usize>(
     previous_row: usize,
-    current_filled_columns : [usize; N]
+    current_filled_columns : [usize; N],
+    rng: &mut impl Rng
 ) -> Option<[usize; N]> {
     if previous_row + 1 >= N {
         return Some(current_filled_columns);
@@ -113,14 +114,14 @@ fn queen_place_helper<const N : usize>(
         .filter(|x| *x as isize != last_filled_column - 1 && *x as isize != last_filled_column + 1)
         .collect();
 
-    possible_col.shuffle(&mut thread_rng());
+    possible_col.shuffle(rng);
 
     for i in possible_col {
         let mut current_cols_copy = current_filled_columns.clone();
 
         current_cols_copy[previous_row + 1] = i;
 
-        match queen_place_helper(previous_row + 1, current_cols_copy) {
+        match queen_place_helper(previous_row + 1, current_cols_copy, rng) {
             None => continue,
             Some(stuff) => return Some(stuff)
         }
@@ -136,28 +137,40 @@ impl BoardBuilder<build_state::Empty> {
                 has_queen: false,
                 region: Regions::Unclaimed
             }),
+            rng: StdRng::from_entropy(),
             phantom_data: PhantomData
         }
     }
 
-    pub fn place_queens(self) -> BoardBuilder<build_state::QueensPlaced> {
+    pub fn new_with_seed(seed: [u8; 32]) -> Self {
+        Self {
+            board: SMatrix::from_element(Slot {
+                has_queen: false,
+                region: Regions::Unclaimed
+            }),
+            rng: StdRng::from_seed(seed),
+            phantom_data: PhantomData
+        }
+    }
+
+    pub fn place_queens(mut self) -> BoardBuilder<build_state::QueensPlaced> {
         let mut board = self.board;
         let mut populated_cols  = [0usize; 8];
-        populated_cols[0] = thread_rng().gen_range(0..8);
+        populated_cols[0] = self.rng.gen_range(0..8);
 
-        let queen_placements = queen_place_helper(0, populated_cols)
+        let queen_placements = queen_place_helper(0, populated_cols, &mut self.rng)
             .expect("There should exist a valid random board for all boards");
 
         for idx in queen_placements.into_iter().enumerate() {
             board[idx].has_queen = true;
         }
 
-        BoardBuilder::<build_state::QueensPlaced> { board, phantom_data: PhantomData }
+        BoardBuilder::<build_state::QueensPlaced> { board, rng: self.rng, phantom_data: PhantomData }
     }
 }
 
 impl BoardBuilder<build_state::QueensPlaced> {
-    pub fn flood_fill(self) -> BoardBuilder<build_state::RegionsFilled> {
+    pub fn flood_fill(mut self) -> BoardBuilder<build_state::RegionsFilled> {
         let mut remaining_colors = {
             let mut tmp_vec = vec![
                 Regions::LAVA,
@@ -170,7 +183,7 @@ impl BoardBuilder<build_state::QueensPlaced> {
                 Regions::Castle
             ];
 
-            tmp_vec.shuffle(&mut thread_rng());
+            tmp_vec.shuffle(&mut self.rng);
 
             tmp_vec
         };
@@ -209,7 +222,7 @@ impl BoardBuilder<build_state::QueensPlaced> {
 
             // assert all
             if board.iter().all(|x| !matches!(x.region, Regions::Unclaimed)) {
-                break BoardBuilder::<build_state::RegionsFilled> { board, phantom_data: PhantomData };
+                break BoardBuilder::<build_state::RegionsFilled> { board, phantom_data: PhantomData, rng: self.rng };
             }
         }
     }
@@ -217,12 +230,12 @@ impl BoardBuilder<build_state::QueensPlaced> {
 
 impl BoardBuilder<build_state::RegionsFilled> {
     pub fn validate_unique(self) -> Option<ValidBoard> {
-        let mut board = self.board;
+        let board = self.board;
 
         // TODO validate this board has a unique_solution
-
-
-        Some(ValidBoard { board })
+        if queen_place_solver_from_start(&self.board) {
+            Some(ValidBoard { board })
+        } else { None }
     }
 }
 
@@ -251,13 +264,18 @@ pub fn validate_grid<const N : usize>(board: SMatrix<Slot, N, N>, user: SMatrix<
 
     let queen_invalids: SMatrix<bool, N, N> = SMatrix::from_fn(|i, j| {
         if user[(i,j)] {
-            let locality_top = (
+            let locality_top@(lt_x, lt_y) = (
                 i.saturating_sub(1),
                 j.saturating_sub(1)
             );
+            let (lb_x, lb_y) = (
+                if (i + 1) < N { i + 1 } else { N - 1 },
+                if (j + 1) < N { j + 1 } else { N - 1 }
+            );
+            
             let locality_size = (
-                if (i + 1) < N { 3 } else { 2 },
-                if (j + 1) < N { 3 } else { 2 }
+                lb_x - lt_x + 1,
+                lb_y - lt_y + 1
             );
 
             user.view(locality_top, locality_size).iter().cloned().map(usize::from).sum::<usize>() > 1
@@ -269,4 +287,61 @@ pub fn validate_grid<const N : usize>(board: SMatrix<Slot, N, N>, user: SMatrix<
     SMatrix::from_fn(|i, j| {
         row_invalids[i] || column_invalids[j] || queen_invalids[(i,j)] || region_invalids.contains(&board[(i, j)].region)
     })
+}
+
+fn queen_place_solver<const N : usize>(
+    previous_row: usize,
+    current_filled_columns : [(usize, Regions); N],
+    board_ref: &SMatrix<Slot, N, N>
+) -> Vec<[(usize, Regions); N]> {
+    if previous_row + 1 >= N {
+        return vec![current_filled_columns];
+    }
+
+    let last_filled_column : isize = current_filled_columns[previous_row].0 as isize;
+
+    let possible_col : Vec<_> = (0..N)
+        .filter(|&x| !current_filled_columns[0..(previous_row + 1)].iter().map(|(y,_)| y).any(|&y| y == x))
+        .filter(|&x| x as isize != last_filled_column - 1 && x as isize != last_filled_column + 1)
+        .filter(|&x| current_filled_columns[0..(previous_row + 1)].iter().map(|&(_,y)| y).any(|y| y == board_ref[(x, previous_row + 1)].region))
+        .collect();
+    
+    let mut total_result = vec![];
+    
+    for i in possible_col {
+        let mut current_cols_copy = current_filled_columns;
+
+        current_cols_copy[previous_row + 1] = (i, board_ref[(i, previous_row + 1)].region);
+
+        let mut inner_result = queen_place_solver(previous_row + 1, current_cols_copy, board_ref);
+        
+        total_result.append(&mut inner_result);
+        
+        if total_result.len() > 1 {
+            // Short circuit
+            break;
+        }
+    }
+
+    total_result
+}
+
+fn queen_place_solver_from_start<const N : usize>(
+    board_ref: &SMatrix<Slot, N, N>
+) -> bool {
+
+    let x : usize = (0..N).into_par_iter().map(|i| {
+        let mut root = [(0usize, Regions::Unclaimed); N];
+        root[0] = (i, board_ref[(0, i)].region);
+        
+        let inter = queen_place_solver(
+            0,
+            root,
+            board_ref
+        );
+        
+        inter.len()
+    }).sum();
+    
+    x == 1
 }

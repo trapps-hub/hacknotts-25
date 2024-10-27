@@ -10,3 +10,4 @@ crate-type = ["cdylib"]
 nalgebra = "0.33.1"
 godot = { git = "https://github.com/godot-rust/gdext", branch = "master" }
 rand = "0.8.5"
+rayon = "1.10.0"
