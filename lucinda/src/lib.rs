@@ -44,12 +44,12 @@ impl LucindaGrid {
             .as_mut()
             .unwrap();
 
-        let x: SMatrix<bool, 8, 8> = internal_slot_instance_ref
+        let user_queens: SMatrix<bool, 8, 8> = internal_slot_instance_ref
             .map(|mut slot| { slot.call("isQueen".into(), &[]).booleanize() });
-        let validated = validate_grid(*self.board, x);
+        let validated = validate_grid(*self.board, user_queens);
 
         for (x, y) in internal_slot_instance_ref.iter_mut().zip(validated.iter()) {
-            let args = [(*y).to_variant()];
+            let args = [(!*y).to_variant()];
             x.call("setValidity".into(), &args);
         }
     }

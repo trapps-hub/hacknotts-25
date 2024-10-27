@@ -5,7 +5,8 @@ use rand::prelude::*;
 
 #[cfg(test)]
 mod tests {
-    use crate::board::{BoardBuilder, Regions};
+    use nalgebra::SMatrix;
+    use crate::board::{validate_grid, BoardBuilder};
 
     #[test]
     fn place_test() {
@@ -27,6 +28,18 @@ mod tests {
         println!("{}", test_board.board.map(|x| x.region).map(|x| {
             x as u8
         }));
+    }
+    #[test]
+    fn comp_test() {
+        let test_board = BoardBuilder::new()
+            .place_queens()
+            .flood_fill()
+            .validate_unique().unwrap();
+
+        let mut x = SMatrix::default();
+        x[(1,1)] = true;
+        x[(0,1)] = true;
+        validate_grid(*test_board, x);
     }
 }
 
@@ -229,11 +242,9 @@ pub fn validate_grid<const N : usize>(board: SMatrix<Slot, N, N>, user: SMatrix<
         }
         z
     }).sum::<SVector<usize, 8>>()
-        .into_iter().cloned().enumerate().filter_map(|(x, y)| unsafe {
-        (x > 1).then_some(y)
-    }).collect();
+        .into_iter().cloned().enumerate().filter_map(|(x, y)| (x > 1).then_some(y)).collect();
 
-    let queen_invalids: SMatrix<bool, 8, 8> = SMatrix::from_fn(|i, j| {
+    let queen_invalids: SMatrix<bool, N, N> = SMatrix::from_fn(|i, j| {
         if user[(i,j)] {
             let locality_top = (
                 i.saturating_sub(1),
