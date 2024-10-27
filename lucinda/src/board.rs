@@ -272,7 +272,7 @@ pub fn validate_grid<const N : usize>(board: SMatrix<Slot, N, N>, user: SMatrix<
                 if (i + 1) < N { i + 1 } else { N - 1 },
                 if (j + 1) < N { j + 1 } else { N - 1 }
             );
-            
+
             let locality_size = (
                 lb_x - lt_x + 1,
                 lb_y - lt_y + 1
@@ -303,20 +303,20 @@ fn queen_place_solver<const N : usize>(
     let possible_col : Vec<_> = (0..N)
         .filter(|&x| !current_filled_columns[0..(previous_row + 1)].iter().map(|(y,_)| y).any(|&y| y == x))
         .filter(|&x| x as isize != last_filled_column - 1 && x as isize != last_filled_column + 1)
-        .filter(|&x| current_filled_columns[0..(previous_row + 1)].iter().map(|&(_,y)| y).any(|y| y == board_ref[(x, previous_row + 1)].region))
+        .filter(|&x| !current_filled_columns[0..(previous_row + 1)].iter().map(|&(_,y)| y).any(|y| y == board_ref[(x, previous_row + 1)].region))
         .collect();
-    
+
     let mut total_result = vec![];
-    
+
     for i in possible_col {
         let mut current_cols_copy = current_filled_columns;
 
         current_cols_copy[previous_row + 1] = (i, board_ref[(i, previous_row + 1)].region);
 
         let mut inner_result = queen_place_solver(previous_row + 1, current_cols_copy, board_ref);
-        
+
         total_result.append(&mut inner_result);
-        
+
         if total_result.len() > 1 {
             // Short circuit
             break;
@@ -332,16 +332,16 @@ fn queen_place_solver_from_start<const N : usize>(
 
     let x : usize = (0..N).into_par_iter().map(|i| {
         let mut root = [(0usize, Regions::Unclaimed); N];
-        root[0] = (i, board_ref[(0, i)].region);
-        
+        root[0] = (i, board_ref[(i, 0)].region);
+
         let inter = queen_place_solver(
             0,
             root,
             board_ref
         );
-        
+
         inter.len()
     }).sum();
-    
+
     x == 1
 }
