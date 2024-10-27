@@ -41,9 +41,9 @@ impl LucindaGrid {
         for i in 0..(32 / 4) {
             seed_seed[(i * 4)..((i + 1) * 4)].copy_from_slice(&seed);
         }
-        
+
         let mut rng = StdRng::from_seed(seed_seed);
-        
+
         self.board = loop {
             if let Some(board) = BoardBuilder::new_with_rng(&mut rng)
                 .place_queens()
@@ -61,7 +61,7 @@ impl LucindaGrid {
     }
 
     #[func]
-    fn check(&mut self) {
+    fn check(&mut self) -> bool {
         let internal_slot_instance_ref = self.slot_instances
             .as_mut()
             .unwrap();
@@ -74,6 +74,16 @@ impl LucindaGrid {
             let args = [(!*y).to_variant()];
             x.call("setValidity".into(), &args);
         }
+        
+        let out = user_queens.map(usize::from).sum() == 8 && validated.map(usize::from).sum() == 0;
+        
+        if out {
+            for x in internal_slot_instance_ref.iter_mut() {
+                x.call("disableSlot".into(), &[]);
+            }
+        }
+        
+        out
     }
 }
 
@@ -98,7 +108,7 @@ impl IGridContainer for LucindaGrid {
         }
 
         let mut rng = StdRng::from_seed(seed_seed);
-        
+
         let board = loop {
             if let Some(board) = BoardBuilder::new_with_rng(&mut rng)
                 .place_queens()
