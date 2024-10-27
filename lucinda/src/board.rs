@@ -39,7 +39,12 @@ mod tests {
         let mut x = SMatrix::default();
         x[(1,1)] = true;
         x[(0,1)] = true;
-        validate_grid(*test_board, x);
+
+        println!("{}", test_board.board.map(|x| x.region).map(|x| {
+            x as u8
+        }));
+
+        println!("{}", validate_grid(*test_board, x));
     }
 }
 
@@ -235,14 +240,14 @@ pub fn validate_grid<const N : usize>(board: SMatrix<Slot, N, N>, user: SMatrix<
     let column_invalids : Vec<_> = user.column_iter().map(|x| x.iter().map(|x| if *x { 1 } else { 0 }).sum::<usize>()).map(|x| x > 1).collect();
     let row_invalids : Vec<_> = user.row_iter().map(|x| x.iter().map(|x| if *x { 1 } else { 0 }).sum::<usize>()).map(|x| x > 1).collect();
 
-    let region_invalids: Vec<usize> = user.iter().zip(board.iter()).map(|(x, y)| {
-        let mut z : SVector<usize, 8> = SVector::default();
-        if *x {
-            z[y.region as usize] = 1
-        }
-        z
-    }).sum::<SVector<usize, 8>>()
-        .into_iter().cloned().enumerate().filter_map(|(x, y)| (x > 1).then_some(y)).collect();
+    // let region_invalids: Vec<usize> = user.iter().zip(board.iter()).map(|(x, y)| {
+    //     let mut z : SVector<usize, 8> = SVector::default();
+    //     if *x {
+    //         z[y.region as usize] = 1
+    //     }
+    //     z
+    // }).sum::<SVector<usize, 8>>()
+    //     .into_iter().cloned().enumerate().filter_map(|(x, y)| (x > 1).then_some(y)).collect();
 
     let queen_invalids: SMatrix<bool, N, N> = SMatrix::from_fn(|i, j| {
         if user[(i,j)] {
@@ -262,6 +267,6 @@ pub fn validate_grid<const N : usize>(board: SMatrix<Slot, N, N>, user: SMatrix<
     });
 
     SMatrix::from_fn(|i, j| {
-        column_invalids[i] || row_invalids[j] || queen_invalids[(i,j)] || region_invalids.contains(&(board[(i,j)].region as usize))
+        column_invalids[i] || row_invalids[j] || queen_invalids[(i,j)]
     })
 }

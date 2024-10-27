@@ -3,7 +3,7 @@ mod board;
 use std::env::args;
 use godot::classes::{GridContainer, IGridContainer, Panel};
 use godot::prelude::*;
-use nalgebra::{OMatrix, SMatrix};
+use nalgebra::SMatrix;
 use crate::board::{validate_grid, BoardBuilder, Slot};
 
 
