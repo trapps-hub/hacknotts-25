@@ -48,7 +48,7 @@ impl LucindaGrid {
         let validated = validate_grid(*self.board, x);
 
         for (x, y) in internal_slot_instance_ref.iter_mut().zip(validated.iter()) {
-            x.call("setInvalid".into(), &[(*y).to_variant()]);
+            x.call("setValidity".into(), &[(*y).to_variant()]);
         }
     }
 }
