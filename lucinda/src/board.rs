@@ -1,3 +1,4 @@
+use std::collections::{HashMap, HashSet};
 use std::marker::PhantomData;
 use std::ops::Deref;
 use nalgebra::{SMatrix, SVector};
@@ -49,7 +50,7 @@ mod tests {
     }
 }
 
-#[derive(Debug, Copy, Clone, Eq, PartialEq)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Hash)]
 #[repr(u8)]
 pub enum Regions {
     Unclaimed = 0,
@@ -241,14 +242,12 @@ pub fn validate_grid<const N : usize>(board: SMatrix<Slot, N, N>, user: SMatrix<
     let column_invalids : Vec<_> = user.column_iter().map(|x| x.iter().map(|x| if *x { 1 } else { 0 }).sum::<usize>()).map(|x| x > 1).collect();
     let row_invalids : Vec<_> = user.row_iter().map(|x| x.iter().map(|x| if *x { 1 } else { 0 }).sum::<usize>()).map(|x| x > 1).collect();
 
-    // let region_invalids: Vec<usize> = user.iter().zip(board.iter()).map(|(x, y)| {
-    //     let mut z : SVector<usize, 8> = SVector::default();
-    //     if *x {
-    //         z[y.region as usize] = 1
-    //     }
-    //     z
-    // }).sum::<SVector<usize, 8>>()
-    //     .into_iter().cloned().enumerate().filter_map(|(x, y)| (x > 1).then_some(y)).collect();
+    let region_invalids: HashSet<Regions> = user
+        .iter()
+        .zip(board.iter())
+        .filter_map(|(x, y)| x.then_some(y.region))
+        .fold(HashMap::new(), |mut map, r| { *map.entry(r).or_insert(0) += 1; map })
+        .into_iter().filter_map(|(k,v)| (v > 1).then_some(k) ).collect();
 
     let queen_invalids: SMatrix<bool, N, N> = SMatrix::from_fn(|i, j| {
         if user[(i,j)] {
@@ -268,6 +267,6 @@ pub fn validate_grid<const N : usize>(board: SMatrix<Slot, N, N>, user: SMatrix<
     });
 
     SMatrix::from_fn(|i, j| {
-        row_invalids[i] || column_invalids[j] || queen_invalids[(i,j)]
+        row_invalids[i] || column_invalids[j] || queen_invalids[(i,j)] || region_invalids[board[(i, j)].region]
     })
 }
