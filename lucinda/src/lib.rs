@@ -12,6 +12,8 @@ unsafe impl ExtensionLibrary for LucindaGrid {}
 #[derive(GodotClass)]
 #[class(base = GridContainer)]
 struct LucindaGrid {
+    #[export]
+    seed: GString,
     board: board::ValidBoard,
     slot_instances: Option<SMatrix<Gd<Panel>, 8, 8>>,
     base: Base<GridContainer>
@@ -22,7 +24,21 @@ impl LucindaGrid {
     #[func]
     fn regenerate(&mut self) {
         self.board = loop {
-            if let Some(board) = BoardBuilder::new()
+            let hash = self.seed.hash();
+            let seed = [
+                (hash << (u8::BITS * 3)) as u8,
+                (hash << (u8::BITS * 2)) as u8,
+                (hash << u8::BITS) as u8,
+                hash as u8
+            ];
+            
+            let mut seed_seed : [u8; 32] = [0;32];
+            
+            for i in 0..(32 / 4) {
+                seed_seed[i..(i * 4)].copy_from_slice(&seed);
+            }
+            
+            if let Some(board) = BoardBuilder::new_with_seed(seed_seed)
                 .place_queens()
                 .flood_fill()
                 .validate_unique() {
@@ -69,7 +85,8 @@ impl IGridContainer for LucindaGrid {
         Self {
             board,
             slot_instances: None,
-            base
+            base,
+            seed: "Queendoms".into()
         }
     }
 
