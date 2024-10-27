@@ -4,6 +4,7 @@ use std::ops::Deref;
 use nalgebra::SMatrix;
 use rand::prelude::*;
 use rayon::prelude::*;
+use crate::board::build_state::Empty;
 
 #[cfg(test)]
 mod tests {
@@ -98,6 +99,25 @@ pub struct BoardBuilder<BuildState, Rng = StdRng> {
     phantom_data: PhantomData<BuildState>
 }
 
+impl BoardBuilder<Empty, ThreadRng> {
+    pub fn new() -> Self {
+        Self::new_with_rng(thread_rng())
+    }
+}
+
+impl<Rng: rand::Rng> BoardBuilder<Empty, Rng> {
+    pub fn new_with_rng(rng: Rng) -> Self {
+        Self {
+            board: SMatrix::from_element(Slot {
+                has_queen: false,
+                region: Regions::Unclaimed
+            }),
+            rng,
+            phantom_data: PhantomData
+        }
+    }
+}
+
 fn queen_place_helper<const N : usize>(
     previous_row: usize,
     current_filled_columns : [usize; N],
@@ -130,30 +150,9 @@ fn queen_place_helper<const N : usize>(
     None
 }
 
-impl BoardBuilder<build_state::Empty> {
-    pub fn new() -> Self {
-        Self {
-            board: SMatrix::from_element(Slot {
-                has_queen: false,
-                region: Regions::Unclaimed
-            }),
-            rng: StdRng::from_entropy(),
-            phantom_data: PhantomData
-        }
-    }
+impl <Rng: rand::Rng> BoardBuilder<Empty, Rng> {
 
-    pub fn new_with_seed(seed: [u8; 32]) -> Self {
-        Self {
-            board: SMatrix::from_element(Slot {
-                has_queen: false,
-                region: Regions::Unclaimed
-            }),
-            rng: StdRng::from_seed(seed),
-            phantom_data: PhantomData
-        }
-    }
-
-    pub fn place_queens(mut self) -> BoardBuilder<build_state::QueensPlaced> {
+    pub fn place_queens(mut self) -> BoardBuilder<build_state::QueensPlaced, Rng> {
         let mut board = self.board;
         let mut populated_cols  = [0usize; 8];
         populated_cols[0] = self.rng.gen_range(0..8);
@@ -165,12 +164,12 @@ impl BoardBuilder<build_state::Empty> {
             board[idx].has_queen = true;
         }
 
-        BoardBuilder::<build_state::QueensPlaced> { board, rng: self.rng, phantom_data: PhantomData }
+        BoardBuilder::<build_state::QueensPlaced, Rng> { board, rng: self.rng, phantom_data: PhantomData }
     }
 }
 
-impl BoardBuilder<build_state::QueensPlaced> {
-    pub fn flood_fill(mut self) -> BoardBuilder<build_state::RegionsFilled> {
+impl <Rng: rand::Rng> BoardBuilder<build_state::QueensPlaced, Rng> {
+    pub fn flood_fill(mut self) -> BoardBuilder<build_state::RegionsFilled, Rng> {
         let mut remaining_colors = {
             let mut tmp_vec = vec![
                 Regions::LAVA,
@@ -204,7 +203,7 @@ impl BoardBuilder<build_state::QueensPlaced> {
                     if !matches!(board[(i,j)].region, Regions::Unclaimed) {
                     let mut x_mod : isize = 0;
                     let mut y_mod : isize = 0;
-                    *(if random() { &mut x_mod } else { &mut y_mod }) = if random() { -1 } else { 1 };
+                    *(if self.rng.gen_bool(0.5) { &mut x_mod } else { &mut y_mod }) = if self.rng.gen_bool(0.5) { -1 } else { 1 };
 
                     if let Some(modifiied) = (i as isize).checked_add(x_mod).map(|x| x as usize) {
                         if modifiied < x {
@@ -222,13 +221,13 @@ impl BoardBuilder<build_state::QueensPlaced> {
 
             // assert all
             if board.iter().all(|x| !matches!(x.region, Regions::Unclaimed)) {
-                break BoardBuilder::<build_state::RegionsFilled> { board, phantom_data: PhantomData, rng: self.rng };
+                break BoardBuilder::<build_state::RegionsFilled, Rng> { board, phantom_data: PhantomData, rng: self.rng };
             }
         }
     }
 }
 
-impl BoardBuilder<build_state::RegionsFilled> {
+impl <Rng: rand::Rng> BoardBuilder<build_state::RegionsFilled, Rng> {
     pub fn validate_unique(self) -> Option<ValidBoard> {
         let board = self.board;
 

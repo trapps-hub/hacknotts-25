@@ -1,8 +1,11 @@
 mod board;
 
+use std::hash::{DefaultHasher, Hash, Hasher};
 use godot::classes::{GridContainer, IGridContainer, Panel};
 use godot::prelude::*;
 use nalgebra::SMatrix;
+use rand::rngs::StdRng;
+use rand::SeedableRng;
 use crate::board::{validate_grid, BoardBuilder};
 
 
@@ -23,22 +26,26 @@ struct LucindaGrid {
 impl LucindaGrid {
     #[func]
     fn regenerate(&mut self) {
+        let mut hasher : DefaultHasher = Default::default();
+        self.seed.to_string().hash(&mut hasher);
+        let hash = hasher.finish();
+        let seed = [
+            (hash << (u8::BITS * 3)) as u8,
+            (hash << (u8::BITS * 2)) as u8,
+            (hash << u8::BITS) as u8,
+            hash as u8
+        ];
+
+        let mut seed_seed : [u8; 32] = [0;32];
+
+        for i in 0..(32 / 4) {
+            seed_seed[(i * 4)..((i + 1) * 4)].copy_from_slice(&seed);
+        }
+        
+        let mut rng = StdRng::from_seed(seed_seed);
+        
         self.board = loop {
-            let hash = self.seed.hash();
-            let seed = [
-                (hash << (u8::BITS * 3)) as u8,
-                (hash << (u8::BITS * 2)) as u8,
-                (hash << u8::BITS) as u8,
-                hash as u8
-            ];
-            
-            let mut seed_seed : [u8; 32] = [0;32];
-            
-            for i in 0..(32 / 4) {
-                seed_seed[i..(i * 4)].copy_from_slice(&seed);
-            }
-            
-            if let Some(board) = BoardBuilder::new_with_seed(seed_seed)
+            if let Some(board) = BoardBuilder::new_with_rng(&mut rng)
                 .place_queens()
                 .flood_fill()
                 .validate_unique() {
@@ -73,8 +80,27 @@ impl LucindaGrid {
 #[godot_api]
 impl IGridContainer for LucindaGrid {
     fn init(base: Base<GridContainer>) -> Self {
+        let default_seed = "Queendoms";
+        let mut hasher : DefaultHasher = Default::default();
+        default_seed.to_string().hash(&mut hasher);
+        let hash = hasher.finish();
+        let seed = [
+            (hash << (u8::BITS * 3)) as u8,
+            (hash << (u8::BITS * 2)) as u8,
+            (hash << u8::BITS) as u8,
+            hash as u8
+        ];
+
+        let mut seed_seed : [u8; 32] = [0;32];
+
+        for i in 0..(32 / 4) {
+            seed_seed[(i * 4)..((i + 1) * 4)].copy_from_slice(&seed);
+        }
+
+        let mut rng = StdRng::from_seed(seed_seed);
+        
         let board = loop {
-            if let Some(board) = BoardBuilder::new()
+            if let Some(board) = BoardBuilder::new_with_rng(&mut rng)
                 .place_queens()
                 .flood_fill()
                 .validate_unique() {
@@ -86,7 +112,7 @@ impl IGridContainer for LucindaGrid {
             board,
             slot_instances: None,
             base,
-            seed: "Queendoms".into()
+            seed: default_seed.into()
         }
     }
 

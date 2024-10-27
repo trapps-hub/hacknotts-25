@@ -73,7 +73,7 @@ offset_bottom = 59.5
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_et8tt")
-text = "Sovereigns"
+text = "Queendoms"
 horizontal_alignment = 1
 
 [node name="Board" type="Control" parent="HBoxContainer/MidCol"]
