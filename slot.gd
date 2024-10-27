@@ -47,7 +47,7 @@ func button_pressed() -> void:
 	pass
 
 func resetSlot() -> void:
-	isValid = true
+	setValidity(true)
 	cross_icon.visible = false
 	crown_icon.visible = false
 	self.state = SlotState.BLANK
