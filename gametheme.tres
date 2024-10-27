@@ -55,6 +55,6 @@ Label/constants/shadow_outline_size = 1
 Label/font_sizes/font_size = 36
 Label/fonts/font = ExtResource("1_x78t7")
 Label/styles/normal = SubResource("StyleBoxEmpty_2ddif")
-LineEdit/colors/selection_color = Color(0.762404, 0.762404, 0.762404, 1)
+LineEdit/colors/font_color = Color(0.268398, 0.268398, 0.268398, 1)
 LineEdit/styles/normal = SubResource("StyleBoxFlat_sxuqk")
 Panel/styles/panel = SubResource("StyleBoxFlat_ibv1e")
