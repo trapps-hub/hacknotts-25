@@ -1,6 +1,6 @@
 use std::marker::PhantomData;
 use std::ops::Deref;
-use nalgebra::{SMatrix};
+use nalgebra::{SMatrix, SVector};
 use rand::prelude::*;
 
 #[cfg(test)]
@@ -25,24 +25,15 @@ mod tests {
         let test_board = test_board.flood_fill();
 
         println!("{}", test_board.board.map(|x| x.region).map(|x| {
-            match x {
-                Regions::Unclaimed => 0,
-                Regions::LAVA => 1,
-                Regions::Hinterlands => 2,
-                Regions::Farms => 3,
-                Regions::MySwamp => 4,
-                Regions::Lake => 5,
-                Regions::Ocean => 6,
-                Regions::Burpl => 7,
-                Regions::Castle => 8
-            }
+            x as u8
         }));
     }
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
+#[repr(u8)]
 pub enum Regions {
-    Unclaimed,
+    Unclaimed = 0,
     LAVA,
     Hinterlands,
     Farms,
@@ -210,6 +201,7 @@ impl BoardBuilder<build_state::RegionsFilled> {
 
         // TODO validate this board has a unique_solution
 
+
         Some(ValidBoard { board })
     }
 }
@@ -224,4 +216,41 @@ impl Deref for ValidBoard {
     fn deref(&self) -> &Self::Target {
         &self.board
     }
+}
+
+pub fn validate_grid<const N : usize>(board: SMatrix<Slot, N, N>, user: SMatrix<bool, N, N>) -> SMatrix<bool, N, N> {
+    let column_invalids : Vec<_> = user.column_iter().map(|x| x.iter().map(|x| if *x { 1 } else { 0 }).sum::<usize>()).map(|x| x > 1).collect();
+    let row_invalids : Vec<_> = user.row_iter().map(|x| x.iter().map(|x| if *x { 1 } else { 0 }).sum::<usize>()).map(|x| x > 1).collect();
+
+    let region_invalids: Vec<usize> = user.iter().zip(board.iter()).map(|(x, y)| {
+        let mut z : SVector<usize, 8> = SVector::default();
+        if *x {
+            z[y.region as usize] = 1
+        }
+        z
+    }).sum::<SVector<usize, 8>>()
+        .into_iter().cloned().enumerate().filter_map(|(x, y)| unsafe {
+        (x > 1).then_some(y)
+    }).collect();
+
+    let queen_invalids: SMatrix<bool, 8, 8> = SMatrix::from_fn(|i, j| {
+        if user[(i,j)] {
+            let locality_top = (
+                i.saturating_sub(1),
+                j.saturating_sub(1)
+            );
+            let locality_bottom = (
+                (i + 1) % N,
+                (j + 1) % N
+            );
+
+            user.view(locality_top, locality_bottom).iter().cloned().map(usize::from).sum::<usize>() > 1
+        } else {
+            false
+        }
+    });
+
+    SMatrix::from_fn(|i, j| {
+        column_invalids[i] || row_invalids[j] || queen_invalids[(i,j)] || region_invalids.contains(&(board[(i,j)].region as usize))
+    })
 }
