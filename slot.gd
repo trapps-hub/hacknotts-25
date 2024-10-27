@@ -8,6 +8,7 @@ var isValid = true
 
 var cross_icon
 var crown_icon
+var invalid_icon
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -16,6 +17,7 @@ func _ready() -> void:
 	
 	cross_icon = get_node("Button/CrossIcon")
 	crown_icon = get_node("Button/CrownIcon")
+	invalid_icon = get_node("Button/InvalidIcon")
 	pass # Replace with function body.
 
 
@@ -33,10 +35,14 @@ func button_pressed() -> void:
 			self.state = SlotState.QUEEN
 			cross_icon.visible = false
 			crown_icon.visible = true
+			# call for check board
+			get_parent().check()
 			print("QUEEN")
 		SlotState.QUEEN:
 			self.state = SlotState.BLANK
 			crown_icon.visible = false
+			# call for check board
+			get_parent().check()
 			print("BLANK")
 	pass
 
@@ -46,6 +52,17 @@ func resetSlot() -> void:
 	crown_icon.visible = false
 	self.state = SlotState.BLANK
 	pass
+
+func isQueen() -> bool:
+	return self.state == SlotState.QUEEN
+
+func setValidity(validity: bool) -> void:
+	self.isValid = validity
+	if self.isValid:
+		invalid_icon.visible = false
+	else:
+		invalid_icon.visible = true
+	pass 
 
 func setColour(colour: String) -> void:
 	styleBox.set("bg_color", colour)

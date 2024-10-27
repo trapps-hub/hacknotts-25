@@ -1,9 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://b01guk2i4bb5m"]
+[gd_scene load_steps=7 format=3 uid="uid://b01guk2i4bb5m"]
 
 [ext_resource type="Theme" uid="uid://b0dhxburu5d0f" path="res://slots.tres" id="1_alm6l"]
 [ext_resource type="Script" path="res://slot.gd" id="2_uej6r"]
+[ext_resource type="Shader" path="res://slotshader.gdshader" id="3_8i6cu"]
 [ext_resource type="Texture2D" uid="uid://c0ki5ocv821x8" path="res://crown.png" id="3_8myd6"]
 [ext_resource type="Texture2D" uid="uid://dscgo717xw06p" path="res://close.png" id="4_jxhil"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_52ish"]
+shader = ExtResource("3_8i6cu")
+shader_parameter/color_one = Color(1, 0, 0, 1)
+shader_parameter/color_two = Color(1, 0.4, 0.4, 1)
+shader_parameter/angle = 45.0
+shader_parameter/line_count = 40.0
+shader_parameter/blur = null
 
 [node name="Slot" type="Panel"]
 custom_minimum_size = Vector2(100, 100)
@@ -20,6 +29,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_alm6l")
+theme_override_colors/font_disabled_color = Color(0.129412, 0.14902, 0.180392, 1)
 action_mode = 0
 
 [node name="CrownIcon" type="TextureRect" parent="Button"]
@@ -55,3 +65,15 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("4_jxhil")
 expand_mode = 1
+
+[node name="InvalidIcon" type="ColorRect" parent="Button"]
+visible = false
+material = SubResource("ShaderMaterial_52ish")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(1, 1, 1, 0)
