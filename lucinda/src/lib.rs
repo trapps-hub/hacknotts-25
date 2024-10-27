@@ -5,7 +5,7 @@ use godot::classes::{GridContainer, IGridContainer, Panel};
 use godot::prelude::*;
 use nalgebra::SMatrix;
 use rand::rngs::StdRng;
-use rand::SeedableRng;
+use rand::{thread_rng, Rng, SeedableRng};
 use crate::board::{validate_grid, BoardBuilder};
 
 
@@ -65,6 +65,22 @@ impl LucindaGrid {
         self.seed = seed;
         
         self.regenerate()
+    }
+    
+    #[func]
+    fn regenerate_with_random_seed(&mut self) -> GString {
+        let seed_string = thread_rng()
+            .sample_iter(&rand::distributions::Alphanumeric)
+            .take(7)
+            .map(char::from)
+            .collect::<String>();
+        
+        
+        self.seed = seed_string.into();
+
+        self.regenerate();
+        
+        self.seed.clone()
     }
 
     #[func]
