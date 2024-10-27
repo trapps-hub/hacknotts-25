@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://drc7scsqevy8x"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://drc7scsqevy8x"]
 
 [ext_resource type="FontFile" uid="uid://by61n0y5yadtr" path="res://Jacquard24-Regular.ttf" id="1_x78t7"]
 
@@ -21,6 +21,9 @@ bg_color = Color(0.357191, 0.357191, 0.357191, 1)
 bg_color = Color(0.830335, 0.830335, 0.830335, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2ddif"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sxuqk"]
+bg_color = Color(0.847059, 0.847059, 0.847059, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ibv1e"]
 bg_color = Color(0.856067, 0.856067, 0.856067, 1)
@@ -52,4 +55,6 @@ Label/constants/shadow_outline_size = 1
 Label/font_sizes/font_size = 36
 Label/fonts/font = ExtResource("1_x78t7")
 Label/styles/normal = SubResource("StyleBoxEmpty_2ddif")
+LineEdit/colors/selection_color = Color(0.762404, 0.762404, 0.762404, 1)
+LineEdit/styles/normal = SubResource("StyleBoxFlat_sxuqk")
 Panel/styles/panel = SubResource("StyleBoxFlat_ibv1e")

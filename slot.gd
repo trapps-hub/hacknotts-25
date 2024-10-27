@@ -30,23 +30,30 @@ func button_pressed() -> void:
 		SlotState.BLANK:
 			self.state = SlotState.X
 			cross_icon.visible = true
-			print("X")
+			# print("X")
 		SlotState.X:
 			self.state = SlotState.QUEEN
 			cross_icon.visible = false
 			crown_icon.visible = true
 			# call for check board
-			get_parent().check()
-			print("QUEEN")
+			if get_parent().check():
+				get_parent().get_parent().get_parent().endgame()
+			# print("QUEEN")
 		SlotState.QUEEN:
 			self.state = SlotState.BLANK
 			crown_icon.visible = false
 			# call for check board
-			get_parent().check()
-			print("BLANK")
+			if get_parent().check():
+				get_parent().get_parent().get_parent().endgame()
+			# print("BLANK")
+	pass
+
+func disableSlot() -> void:
+	get_node("Button").disabled = true
 	pass
 
 func resetSlot() -> void:
+	get_node("Button").disabled = false
 	setValidity(true)
 	cross_icon.visible = false
 	crown_icon.visible = false
