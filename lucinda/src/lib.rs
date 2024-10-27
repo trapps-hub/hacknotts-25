@@ -59,6 +59,13 @@ impl LucindaGrid {
             child.call("setColour".into(), &args);
         }
     }
+    
+    #[func]
+    fn regenerate_with_seed(&mut self, seed: GString) {
+        self.seed = seed;
+        
+        self.regenerate()
+    }
 
     #[func]
     fn check(&mut self) -> bool {
