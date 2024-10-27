@@ -267,6 +267,6 @@ pub fn validate_grid<const N : usize>(board: SMatrix<Slot, N, N>, user: SMatrix<
     });
 
     SMatrix::from_fn(|i, j| {
-        row_invalids[i] || column_invalids[j] || queen_invalids[(i,j)] || region_invalids[board[(i, j)].region]
+        row_invalids[i] || column_invalids[j] || queen_invalids[(i,j)] || region_invalids.contains(&board[(i, j)].region)
     })
 }
