@@ -3,8 +3,8 @@
 [ext_resource type="Theme" uid="uid://xl7jlsjqo8ah" path="res://slots.tres" id="1_alm6l"]
 [ext_resource type="Script" path="res://slot.gd" id="2_uej6r"]
 [ext_resource type="Shader" path="res://slotshader.gdshader" id="3_8i6cu"]
-[ext_resource type="Texture2D" uid="uid://c0ki5ocv821x8" path="res://crown.png" id="3_8myd6"]
-[ext_resource type="Texture2D" uid="uid://dscgo717xw06p" path="res://close.png" id="4_jxhil"]
+[ext_resource type="Texture2D" uid="uid://dc8j1npfcrba7" path="res://IMG_4085.png" id="3_m8wcq"]
+[ext_resource type="Texture2D" uid="uid://gjldxgabgq2p" path="res://IMG_4086.png" id="4_m37nf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_52ish"]
 shader = ExtResource("3_8i6cu")
@@ -46,7 +46,7 @@ offset_right = 30.0
 offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_8myd6")
+texture = ExtResource("3_m8wcq")
 expand_mode = 1
 
 [node name="CrossIcon" type="TextureRect" parent="Button"]
@@ -63,7 +63,7 @@ offset_right = 30.0
 offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_jxhil")
+texture = ExtResource("4_m37nf")
 expand_mode = 1
 
 [node name="InvalidIcon" type="ColorRect" parent="Button"]
